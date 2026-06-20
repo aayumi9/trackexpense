@@ -1,0 +1,36 @@
+:root {
+    --pink: #ff8ec8;
+    --soft-pink: #ffe4f3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffe4f3 0%, #ffd1e8 100%);
+    color: #222;
+    min-height: 100vh;
+}
+.container { max-width: 1250px; margin: 0 auto; padding: 15px; }
+
+header { text-align: center; margin-bottom: 25px; position: relative; padding-top: 10px; }
+h1 { font-size: 2.6rem; color: #ff4d94; }
+.subtitle { color: #1a1a1a; font-size: 1.25rem; font-weight: bold; }
+
+.currency-select {
+    position: absolute; top: 15px; right: 12px; padding: 8px 12px; font-size: 0.95rem;
+    border-radius: 999px; border: 3px solid #ff8ec8; background: white; width: 125px;
+}
+
+.tabs { display: flex; justify-content: center; gap: 10px; margin: 25px 0; flex-wrap: wrap; }
+.tab {
+    padding: 12px 26px; background: white; border: none; border-radius: 50px;
+    cursor: pointer; font-weight: bold; color: #1a1a1a; font-size: 1.05rem;
+}
+.tab.active { background: #ff4d94; color: white; }
+
+.card {
+    background: white; border-radius: 22px; padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(255,140,200,0.15); border: 3px solid var(--soft-pink);
+}
+.total { font-size: 1.95rem; font-weight: bold; color: #ff4d94; }
+input, select { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #ffe4f3; border-radius: 12px; }
+button { background: #ff4d94; color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; font-weight: bold; }
