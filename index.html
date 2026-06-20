@@ -1,86 +1,179 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💰 Money Tracker ✨</title>
+    <title>Her Finance Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>💰 Money Tracker ✨</h1>
-            <p id="kawaiiMessage" class="subtitle">Loading cute message...</p>
-            
-            <select class="currency-select" id="currencySelect" onchange="changeCurrency()">
-                <option value="INR">🇮🇳 ₹ INR</option>
-                <option value="AUD">🇦🇺 A$ AUD</option>
-                <option value="NPR">🇳🇵 ₨ NPR</option>
-            </select>
-        </header>
+    <div class="page-shell">
+        <div class="blur-layer"></div>
+        <div class="container">
+            <header class="hero">
+                <div class="hero-copy">
+                    <p class="eyebrow">Financial independence for modern women</p>
+                    <h1>Her Finance Tracker</h1>
+                    <p id="heroSubtitle" class="subtitle">Build confidence, clarity, and control in every decision.</p>
+                </div>
 
-        <div class="tabs">
-            <button class="tab active" onclick="showTab(0)">🏠 Dashboard</button>
-            <button class="tab" onclick="showTab(1)">➕ Expense</button>
-            <button class="tab" onclick="showTab(2)">💰 Income</button>
-            <button class="tab" onclick="showTab(3)">📋 History</button>
-        </div>
+                <div class="hero-actions">
+                    <label class="field-label">
+                        Currency
+                        <select class="currency-select" id="currencySelect" onchange="changeCurrency()">
+                            <option value="INR">🇮🇳 ₹ INR</option>
+                            <option value="AUD">🇦🇺 A$ AUD</option>
+                            <option value="NPR">🇳🇵 ₨ NPR</option>
+                        </select>
+                    </label>
+                </div>
+            </header>
 
-        <!-- Dashboard -->
-        <div id="tab0" class="tab-content">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 15px;">
-                <div class="card"><h3>💸 Expenses This Month</h3><div class="total" id="monthExpense">₹0.00</div></div>
-                <div class="card"><h3>💰 Income This Month</h3><div class="total" id="monthIncome">₹0.00</div></div>
-                <div class="card"><h3>🌸 Net Balance</h3><div class="total" id="netBalance">₹0.00</div></div>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab(0)">Dashboard</button>
+                <button class="tab" onclick="showTab(1)">Expense</button>
+                <button class="tab" onclick="showTab(2)">Income</button>
+                <button class="tab" onclick="showTab(3)">History</button>
             </div>
 
-            <div class="card">
-                <h3>🎯 Savings Goal</h3>
-                <input type="text" id="goalName" placeholder="Goal Name (e.g. New Phone)">
-                <input type="number" id="goalTarget" placeholder="Target Amount">
-                <button onclick="setGoal()">Set Goal</button>
-                <div id="goalProgress" style="margin-top:15px;font-weight:bold;"></div>
-            </div>
+            <main>
+                <section id="tab0" class="tab-content active">
+                    <div class="summary-grid">
+                        <article class="glass-card summary-card">
+                            <h3>Expenses this month</h3>
+                            <p class="total" id="monthExpense">₹0.00</p>
+                        </article>
+                        <article class="glass-card summary-card">
+                            <h3>Income this month</h3>
+                            <p class="total" id="monthIncome">₹0.00</p>
+                        </article>
+                        <article class="glass-card summary-card">
+                            <h3>Net cash flow</h3>
+                            <p class="total" id="netBalance">₹0.00</p>
+                        </article>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <article class="glass-card chart-card">
+                            <div class="card-heading">
+                                <div>
+                                    <h3>Financial momentum</h3>
+                                    <p class="subtitle">Track progress across the last six months</p>
+                                </div>
+                            </div>
+                            <div class="chart-area">
+                                <canvas id="budgetChart"></canvas>
+                            </div>
+                        </article>
+
+                        <article class="glass-card goal-card">
+                            <div class="card-heading">
+                                <div>
+                                    <h3>Empower your goals</h3>
+                                    <p class="subtitle">Set a target and measure your progress</p>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <label class="field-label">Goal name
+                                    <input type="text" id="goalName" placeholder="Career growth, savings, independence"></label>
+                                <label class="field-label">Target amount
+                                    <input type="number" id="goalTarget" placeholder="Target amount"></label>
+                            </div>
+                            <button class="primary-btn" onclick="setGoal()">Save goal</button>
+                            <div id="goalProgress" class="goal-progress"></div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="tab1" class="tab-content">
+                    <article class="glass-card form-card">
+                        <div class="card-heading">
+                            <div>
+                                <h3>Add expense</h3>
+                                <p class="subtitle">Record spending with clarity</p>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <label class="field-label">Item
+                                <input type="text" id="expItem" placeholder="What did you buy?"></label>
+                            <label class="field-label">Quantity
+                                <input type="number" id="expQty" value="1" min="1"></label>
+                            <label class="field-label">Currency
+                                <select class="currency-select" id="expCurrency">
+                                    <option value="INR">₹ INR</option>
+                                    <option value="AUD">A$ AUD</option>
+                                    <option value="NPR">₨ NPR</option>
+                                </select>
+                            </label>
+                            <label class="field-label">Price
+                                <input type="number" id="expPrice" step="0.01" placeholder="Price"></label>
+                            <label class="field-label">Date
+                                <input type="date" id="expDate"></label>
+                            <label class="field-label file-label">Receipt photo
+                                <input type="file" id="receiptPhoto" accept="image/*" onchange="previewPhoto(event)"></label>
+                        </div>
+
+                        <div id="photoPreview" class="receipt-preview"></div>
+                        <div class="action-row">
+                            <button class="primary-btn" onclick="addExpense()">Save expense</button>
+                            <button class="secondary-btn" onclick="startVoice()">Voice entry</button>
+                        </div>
+                    </article>
+                </section>
+
+                <section id="tab2" class="tab-content">
+                    <article class="glass-card form-card">
+                        <div class="card-heading">
+                            <div>
+                                <h3>Add income</h3>
+                                <p class="subtitle">Capture earnings with ease</p>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <label class="field-label">Source
+                                <input type="text" id="incSource" placeholder="Source of money"></label>
+                            <label class="field-label">Currency
+                                <select class="currency-select" id="incCurrency">
+                                    <option value="INR">₹ INR</option>
+                                    <option value="AUD">A$ AUD</option>
+                                    <option value="NPR">₨ NPR</option>
+                                </select>
+                            </label>
+                            <label class="field-label">Amount
+                                <input type="number" id="incAmount" step="0.01" placeholder="Amount"></label>
+                            <label class="field-label">Date
+                                <input type="date" id="incDate"></label>
+                        </div>
+                        <button class="primary-btn" onclick="addIncome()">Add Income</button>
+                    </article>
+                </section>
+
+                <section id="tab3" class="tab-content">
+                    <article class="glass-card history-card">
+                        <div class="card-heading">
+                            <div>
+                                <h3>Transaction history</h3>
+                                <p class="subtitle">Maintain a clear record of every entry</p>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table id="historyTable"></table>
+                        </div>
+                    </article>
+                </section>
+            </main>
         </div>
 
-        <!-- Add Expense -->
-        <div id="tab1" class="tab-content" style="display:none;">
-            <div class="card">
-                <h2>➕ Add Expense ✨</h2>
-                <input type="text" id="expItem" placeholder="What did you buy?">
-                <input type="number" id="expQty" value="1" min="1">
-                <input type="number" id="expPrice" step="0.01" placeholder="Price">
-                <input type="date" id="expDate">
-                <input type="file" id="receiptPhoto" accept="image/*" onchange="previewPhoto(event)">
-                <div id="photoPreview" style="margin:10px 0;"></div>
-                <button onclick="addExpense()">Add Expense 💖</button>
-                <button onclick="startVoice()" style="background:#9f7aea;">🎤 Voice Input</button>
-            </div>
-        </div>
-
-        <!-- Add Income -->
-        <div id="tab2" class="tab-content" style="display:none;">
-            <div class="card">
-                <h2>💰 Add Income 🌟</h2>
-                <input type="text" id="incSource" placeholder="Source of money">
-                <input type="number" id="incAmount" step="0.01" placeholder="Amount">
-                <input type="date" id="incDate">
-                <button onclick="addIncome()">Add Income 💰</button>
-            </div>
-        </div>
-
-        <!-- History -->
-        <div id="tab3" class="tab-content" style="display:none;">
-            <div class="card">
-                <h2>📋 All Transactions</h2>
-                <table id="historyTable" style="width:100%;"></table>
+        <div class="modal" id="receiptModal" onclick="hideReceiptModal(event)">
+            <div class="modal-panel">
+                <button class="close-button" onclick="hideReceiptModal(event)">×</button>
+                <img id="receiptModalImage" alt="Receipt preview">
             </div>
         </div>
     </div>
 
-    <canvas id="confetti" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;"></canvas>
-
+    <canvas id="confetti" class="confetti-canvas"></canvas>
     <script src="app.js"></script>
 </body>
 </html>
