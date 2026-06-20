@@ -262,6 +262,26 @@ button:hover,
     align-items: center;
     justify-content: center;
 }
+
+/* Ensure primary buttons inside form cards have breathing room from inputs */
+.form-card > .primary-btn,
+.form-card > .secondary-btn,
+.form-card .primary-btn {
+    margin-top: 16px;
+}
+
+/* Make sure primary buttons within cards don't overflow and align nicely */
+.form-card .primary-btn {
+    align-self: flex-start;
+}
+
+@media (max-width: 640px) {
+    .form-card > .primary-btn,
+    .form-card .primary-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
 .receipt-preview img {
     max-height: 180px;
     max-width: 100%;
@@ -335,6 +355,30 @@ td {
     position: relative;
     min-height: 80px;
     padding: 16px;
+}
+
+/* Goal card: enforce internal layout so controls never escape the card */
+.goal-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 28px;
+    box-sizing: border-box;
+}
+.goal-card .form-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.goal-card .field-label {
+    margin-bottom: 0;
+}
+.goal-card .primary-btn {
+    margin-top: 12px;
+    align-self: flex-start;
+    padding: 10px 18px;
+}
+.goal-card #goalProgress {
+    margin-top: 18px;
 }
 .goal-progress p {
     margin-bottom: 12px;
