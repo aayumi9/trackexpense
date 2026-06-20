@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Her Finance Tracker</title>
+    <title>Money Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,9 +13,10 @@
         <div class="container">
             <header class="hero">
                 <div class="hero-copy">
-                    <p class="eyebrow">Financial independence for modern women</p>
-                    <h1>Her Finance Tracker</h1>
-                    <p id="heroSubtitle" class="subtitle">Build confidence, clarity, and control in every decision.</p>
+                    <p class="eyebrow">Keep your finances polished, personal, and playful.</p>
+                    <p class="hero-intro">Own every budget choice with purpose and precision.</p>
+                    <h1>Money Tracker</h1>
+                    <p id="heroSubtitle" class="subtitle">Track every rupee with purpose and ease.</p>
                 </div>
 
                 <div class="hero-actions">
@@ -52,8 +53,15 @@
                             <h3>Net cash flow</h3>
                             <p class="total" id="netBalance">₹0.00</p>
                         </article>
+                        <article class="glass-card summary-card">
+                            <h3>Available funds</h3>
+                            <p class="total" id="availableFunds">₹0.00</p>
+                        </article>
+                        <article class="glass-card summary-card">
+                            <h3>Budget health</h3>
+                            <p class="total" id="budgetHealth">Good</p>
+                        </article>
                     </div>
-
                     <div class="dashboard-grid">
                         <article class="glass-card chart-card">
                             <div class="card-heading">
@@ -67,11 +75,21 @@
                             </div>
                         </article>
 
+                        <article class="glass-card insights-card">
+                            <div class="card-heading">
+                                <div>
+                                    <h3>Smart insights</h3>
+                                    <p class="subtitle">Know what matters and where to focus</p>
+                                </div>
+                            </div>
+                            <div id="insightsContent" class="insights-content"></div>
+                        </article>
+
                         <article class="glass-card goal-card">
                             <div class="card-heading">
                                 <div>
-                                    <h3>Empower your goals</h3>
-                                    <p class="subtitle">Set a target and measure your progress</p>
+                                    <h3>Savings & budget plan</h3>
+                                    <p class="subtitle">Set a goal and track category budgets</p>
                                 </div>
                             </div>
                             <div class="form-grid">
@@ -82,6 +100,56 @@
                             </div>
                             <button class="primary-btn" onclick="setGoal()">Save goal</button>
                             <div id="goalProgress" class="goal-progress"></div>
+                            <div class="budget-divider"></div>
+                            <div class="form-grid">
+                                <label class="field-label">Budget category
+                                    <select id="budgetCategory" class="currency-select">
+                                        <option value="Housing">Housing</option>
+                                        <option value="Groceries">Groceries</option>
+                                        <option value="Wellness">Wellness</option>
+                                        <option value="Transport">Transport</option>
+                                        <option value="Self-care">Self-care</option>
+                                        <option value="Shopping">Shopping</option>
+                                        <option value="Subscriptions">Subscriptions</option>
+                                        <option value="Other">Other</option>
+                                    </select></label>
+                                <label class="field-label">Monthly budget
+                                    <input type="number" id="budgetAmount" placeholder="Budget amount"></label>
+                            </div>
+                            <button class="secondary-btn" onclick="setBudget()">Save budget</button>
+                            <div id="budgetStatus" class="goal-progress"></div>
+                        </article>
+
+                        <article class="glass-card analytics-card">
+                            <div class="card-heading">
+                                <div>
+                                    <h3>Spending by category</h3>
+                                    <p class="subtitle">See where your money goes</p>
+                                </div>
+                            </div>
+                            <div class="chart-area">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </article>
+
+                        <article class="glass-card analytics-card">
+                            <div class="card-heading">
+                                <div>
+                                    <h3>Savings rate</h3>
+                                    <p class="subtitle">Track your savings percentage</p>
+                                </div>
+                            </div>
+                            <div id="savingsRateContent" class="analytics-content"></div>
+                        </article>
+
+                        <article class="glass-card analytics-card">
+                            <div class="card-heading">
+                                <div>
+                                    <h3>Category breakdown</h3>
+                                    <p class="subtitle">Detailed spending per category</p>
+                                </div>
+                            </div>
+                            <div id="categoryBreakdownContent" class="breakdown-content"></div>
                         </article>
                     </div>
                 </section>
@@ -97,6 +165,17 @@
                         <div class="form-grid">
                             <label class="field-label">Item
                                 <input type="text" id="expItem" placeholder="What did you buy?"></label>
+                            <label class="field-label">Category
+                                <select id="expCategory" class="currency-select">
+                                    <option value="Housing">Housing</option>
+                                    <option value="Groceries">Groceries</option>
+                                    <option value="Wellness">Wellness</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Self-care">Self-care</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Subscriptions">Subscriptions</option>
+                                    <option value="Other">Other</option>
+                                </select></label>
                             <label class="field-label">Quantity
                                 <input type="number" id="expQty" value="1" min="1"></label>
                             <label class="field-label">Currency
@@ -108,6 +187,12 @@
                             </label>
                             <label class="field-label">Price
                                 <input type="number" id="expPrice" step="0.01" placeholder="Price"></label>
+                            <label class="field-label">Frequency
+                                <select id="expFrequency" class="currency-select">
+                                    <option value="none">None</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select></label>
                             <label class="field-label">Date
                                 <input type="date" id="expDate"></label>
                             <label class="field-label file-label">Receipt photo
@@ -133,6 +218,14 @@
                         <div class="form-grid">
                             <label class="field-label">Source
                                 <input type="text" id="incSource" placeholder="Source of money"></label>
+                            <label class="field-label">Category
+                                <select id="incCategory" class="currency-select">
+                                    <option value="Salary">Salary</option>
+                                    <option value="Freelance">Freelance</option>
+                                    <option value="Gift">Gift</option>
+                                    <option value="Savings">Savings</option>
+                                    <option value="Other">Other</option>
+                                </select></label>
                             <label class="field-label">Currency
                                 <select class="currency-select" id="incCurrency">
                                     <option value="INR">₹ INR</option>
@@ -142,6 +235,12 @@
                             </label>
                             <label class="field-label">Amount
                                 <input type="number" id="incAmount" step="0.01" placeholder="Amount"></label>
+                            <label class="field-label">Repeat
+                                <select id="incFrequency" class="currency-select">
+                                    <option value="none">None</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select></label>
                             <label class="field-label">Date
                                 <input type="date" id="incDate"></label>
                         </div>
@@ -157,12 +256,73 @@
                                 <p class="subtitle">Maintain a clear record of every entry</p>
                             </div>
                         </div>
+                        <div class="search-filters">
+                            <input type="text" id="searchInput" placeholder="Search transactions..." onkeyup="filterTransactions()" class="search-input">
+                            <select id="categoryFilter" class="currency-select" onchange="filterTransactions()">
+                                <option value="">All categories</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Groceries">Groceries</option>
+                                <option value="Wellness">Wellness</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Self-care">Self-care</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Subscriptions">Subscriptions</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <select id="typeFilter" class="currency-select" onchange="filterTransactions()">
+                                <option value="">All types</option>
+                                <option value="expense">Expenses</option>
+                                <option value="income">Income</option>
+                            </select>
+                        </div>
+                        <div class="table-actions">
+                            <button class="secondary-btn" onclick="exportTransactions()">Export CSV</button>
+                            <label class="secondary-btn file-upload">
+                                Import CSV
+                                <input type="file" id="importCsv" accept="text/csv" onchange="importTransactions(event)">
+                            </label>
+                        </div>
                         <div class="table-wrap">
                             <table id="historyTable"></table>
                         </div>
                     </article>
                 </section>
             </main>
+        </div>
+
+        <div class="modal" id="editModal" onclick="closeEditModal(event)">
+            <div class="modal-panel">
+                <button class="close-button" onclick="closeEditModal(event)">×</button>
+                <h3>Edit transaction</h3>
+                <div class="edit-form">
+                    <input type="hidden" id="editId">
+                    <input type="hidden" id="editType">
+                    <label class="field-label">Item/Source
+                        <input type="text" id="editItem"></label>
+                    <label class="field-label">Category
+                        <select id="editCategory" class="currency-select">
+                            <option value="Housing">Housing</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Wellness">Wellness</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Self-care">Self-care</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Subscriptions">Subscriptions</option>
+                            <option value="Salary">Salary</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Gift">Gift</option>
+                            <option value="Other">Other</option>
+                        </select></label>
+                    <label class="field-label">Amount
+                        <input type="number" id="editAmount" step="0.01"></label>
+                    <label class="field-label">Date
+                        <input type="date" id="editDate"></label>
+                    <div class="modal-actions">
+                        <button class="primary-btn" onclick="saveEditedTransaction()">Save changes</button>
+                        <button class="secondary-btn" onclick="closeEditModal()">Cancel</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="modal" id="receiptModal" onclick="hideReceiptModal(event)">
@@ -173,6 +333,10 @@
         </div>
     </div>
 
+    <div class="celebration-toast" id="celebrationToast">
+        <p class="toast-title">Money received</p>
+        <p class="toast-message">Great work — your new income is now recorded.</p>
+    </div>
     <canvas id="confetti" class="confetti-canvas"></canvas>
     <script src="app.js"></script>
 </body>
